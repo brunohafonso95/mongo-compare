@@ -70,10 +70,13 @@ function connectToDataBase(databaseUrl, databaseName) {
         logger.info(`Connecting to ${databaseName} on ${databaseUrl}`);
         MongoClient.connect(
             databaseUrl,
-            { useUnifiedTopology: true },
+            {
+                useUnifiedTopology: true,
+                useNewUrlParser: true,
+                serverSelectionTimeoutMS: 3000,
+            },
             (err, client) => {
                 if (err) {
-                    client.close();
                     return reject(err);
                 }
 
@@ -170,19 +173,23 @@ function getDocumentsDifference(
             .to.deep.equal(previousDocument);
         return { differences: 'no diff' };
     } catch (error) {
-        return {
-            collectionName,
-            differences: {
-                currentDocument: {
-                    dbName: currentDbName,
-                    ...error.actual,
+        if (error.name === 'AssertionError') {
+            return {
+                collectionName,
+                differences: {
+                    currentDocument: {
+                        dbName: currentDbName,
+                        ...error.actual,
+                    },
+                    previousDocument: {
+                        dbName: previousDbName,
+                        ...error.expected,
+                    },
                 },
-                previousDocument: {
-                    dbName: previousDbName,
-                    ...error.expected,
-                },
-            },
-        };
+            };
+        }
+
+        throw error;
     }
 }
 
@@ -299,6 +306,7 @@ function removeDuplicateResults(results) {
 }
 
 module.exports = {
+    filterByKeys,
     connectToDataBase,
     removeDuplicateResults,
     getDocumentsDifference,
