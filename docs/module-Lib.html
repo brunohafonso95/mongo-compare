@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+		<title>Lib</title>
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+		<link type="text/css" rel="stylesheet" href="css/prism.min.css">
+		<link type="text/css" rel="stylesheet" href="css/template.min.css">
+		<script type="text/javascript">
+			window.TEMPLATE_OPTIONS = {"includeDate":true,"dateFormat":"Do MMM YYYY","systemName":"Mongo Compare","systemSummary":"documentação geral do projeto","systemLogo":"","systemColor":"","navMembers":[{"kind":"class","title":"Classes","summary":"All documented classes."},{"kind":"external","title":"Externals","summary":"All documented external members."},{"kind":"global","title":"Globals","summary":"All documented globals."},{"kind":"mixin","title":"Mixins","summary":"All documented mixins."},{"kind":"interface","title":"Interfaces","summary":"All documented interfaces."},{"kind":"module","title":"Modules","summary":"All documented modules."},{"kind":"namespace","title":"Namespaces","summary":"All documented namespaces."},{"kind":"tutorial","title":"Tutorials","summary":"All available tutorials."}],"footer":"","copyright":"Mongo Compare Copyright © 2020","linenums":true,"collapseSymbols":true,"inverseNav":true,"inlineNav":false,"outputSourceFiles":true,"sourceRootPath":null,"disablePackagePath":true,"outputSourcePath":false,"showTableOfContents":true,"showAccessFilter":true,"analytics":null,"methodHeadingReturns":true,"sort":"linenum, longname, version, since","search":true,"favicon":null,"stylesheets":[],"scripts":[],"monospaceLinks":false,"cleverLinks":false};
+			window.DOCLET_TOC_ENABLED = true;
+			window.DOCLET_AFILTER_ENABLED = false;
+		</script>
+</head>
+<body>
+	<!-- start:navbar.hbs -->
+	<header class="navbar navbar-default navbar-fixed-top navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">
+					Mongo Compare
+				</a>
+				<!-- displayed on small devices -->
+				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="navbar-collapse collapse" id="topNavigation">
+				<ul class="nav navbar-nav">
+								<li class="dropdown">
+									<a href="list_module.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+											<li><a href="module-Helpers.html">Helpers</a></li>
+											<li><a href="module-Lib.html">Lib</a></li>
+									</ul>
+								</li>
+				</ul>
+					<!-- start:lunr-search-navbar.hbs -->
+					<form class="navbar-form navbar-right" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search" id="lunr-search-input">
+							<div class="input-group-btn">
+								<button class="btn btn-default" id="lunr-search-submit">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+					<!-- start:lunr-search-navbar.hbs -->		</div>
+		</div>
+	</header>
+	<!-- end:navbar.hbs -->		<div class="page-header">
+			<div class="container">
+				<span class="kind">module</span>
+				<h1><span class="name">Lib</span></h1>
+			</div>
+		</div>
+	<div class="container content">
+		<div class="row">
+			<div class="col-md-9 main-content">
+						<ol class="breadcrumb">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="list_module.html">Modules</a></li>
+							<li class="active">Lib</li>
+						</ol>
+					<section>
+		<dl class="symbol">
+			<dt class="symbol-title "></dt>
+			<dd class="symbol-details ">
+				<div class="symbol-details-inner">
+					<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+									<!-- source -->
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Source</label>
+										<div class="col-sm-9">
+											<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-9">line 9</a></p>
+										</div>
+									</div>
+					
+					
+					
+					
+							</form>
+					</div>				</div>
+			</dd>
+		</dl>
+							<article class="secondary">
+									<h3>Methods</h3>
+									<dl class="symbol">
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".connectToDataBase" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">connectToDataBase</span><span class="signature-params">( <span class="signature-param">databaseUrl</span>, <span class="signature-param">databaseName</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{Promise.&lt;connectionObject>}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that connect with database</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>databaseUrl</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>URI of database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>databaseName</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>name of the database</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">Promise.&lt;connectionObject></span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"><p>promise that contains the database instance and the MongoClient instance</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-61">line 61</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".getCollectionDocuments" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">getCollectionDocuments</span><span class="signature-params">( <span class="signature-param">databaseUrl</span>, <span class="signature-param">databaseName</span>, <span class="signature-param">collectionName</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{Promise.&lt;collectionDocumentsResult>}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that get all the documents of a collection</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>databaseUrl</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>URI of the database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>databaseName</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>name of the database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>collectionName</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>name of the collection</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">Promise.&lt;collectionDocumentsResult></span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"><p>promise with the collection documents and the name of database</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-90">line 90</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".getDocumentsDifference" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">getDocumentsDifference</span><span class="signature-params">( <span class="signature-param">currentDocument</span>, <span class="signature-param">previousDocument</span>, <span class="signature-param">documentDifferenceOptions</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{differenceResult|object.&lt;{differences: 'no diff'}>}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that get the differences between two documents</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>currentDocument</code></td>
+							<td><span class="param-type">object.&lt;any></span></td>
+							<td class="last">
+									<p>the actual document</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>previousDocument</code></td>
+							<td><span class="param-type">object.&lt;any></span></td>
+							<td class="last">
+									<p>the old document</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>documentDifferenceOptions</code></td>
+							<td><span class="param-type">documentDifferenceOptions</span></td>
+							<td class="last">
+									<p>options to configure the parser result</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">differenceResult</span> | <span class="param-type">object.&lt;{differences: 'no diff'}></span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"><p>return an object with the diferrence details</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-danger"><h5>Throws</h5>		<form class="form-horizontal exceptions">
+							<div class="form-group">
+								<label class="col-sm-3 control-label exceptions-type"><span class="param-type">Error</span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static exceptions-description"><p>error with the message 'you must inform at least one document' in case the document parameters are not informed</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-117">line 117</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".filterByKeys" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">filterByKeys</span><span class="signature-params">( <span class="signature-param">currentObject</span>, <span class="signature-param">nextObject</span>, <span class="signature-param">keys</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{Boolean}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that return a filter a object by key or array of keys</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>currentObject</code></td>
+							<td><span class="param-type">object</span></td>
+							<td class="last">
+									<p>the current object that the property will be compared</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>nextObject</code></td>
+							<td><span class="param-type">object</span></td>
+							<td class="last">
+									<p>the next object that the property will be compared</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>keys</code></td>
+							<td><span class="param-type">String</span> | <span class="param-type">Array.&lt;String></span></td>
+							<td class="last">
+									<p>the keys os keys that will be compared on objet</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">Boolean</span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"><p>boolean that indicates if the property or propeties of the objects are equals</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-189">line 189</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".getCollectionDifferences" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">getCollectionDifferences</span><span class="signature-params">( <span class="signature-param">collectionsConfig</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{Array.&lt;differenceResult>}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that get the differences between two collections</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>collectionsConfig</code></td>
+							<td><span class="param-type">Array.&lt;collectionsConfig></span></td>
+							<td class="last">
+									<p>arrayn with the collections config to make the compare</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">Array.&lt;differenceResult></span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-212">line 212</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title function public collapsible-symbol">
+			<h4 id=".removeDuplicateResults" class="function public"><span class="signature-attribs">&lt;static> </span><span class="name">removeDuplicateResults</span><span class="signature-params">( <span class="signature-param">results</span>&nbsp;)</span><span class="signature-type"> &rarr;&nbsp;{Array.&lt;differenceResult>}</span></h4>
+		</dt>
+<dd class="symbol-details function public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-primary"><h5>Description</h5>		<div class="description"><p>function that remove the duplicate items on results array</p></div>
+			</div>			<div class="callout callout-info">
+				<h5>Parameters</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>results</code></td>
+							<td><span class="param-type">Array.&lt;differenceResult></span></td>
+							<td class="last">
+									<p>array with the results</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-success"><h5>Returns</h5>		<form class="form-horizontal returns">
+							<div class="form-group">
+								<label class="col-sm-3 control-label returns-type"><span class="param-type">Array.&lt;differenceResult></span></label>
+								<div class="col-sm-9">
+									<div class="form-control-static returns-description"><p>array with the results without duplicate items</p></div>
+								</div>
+							</div>
+					</form>
+			</div>			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-290">line 290</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+									</dl>
+									<h3>Type Definitions</h3>
+									<dl class="symbol">
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~collectionsConfig" class="typedef public"><span class="name">collectionsConfig</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+							<th>Attributes</th>
+							<th>Default</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>url</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>URI of the database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>dbName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>name of the database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>collectionName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>name of the collection</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>ignoreFields</code></td>
+							<td><span class="param-type">Array.&lt;String></span></td>
+								<td class="attributes">&lt;optional&gt;<br/></td>
+								<td>[&#x27;_id&#x27;]</td>
+							<td class="last">
+									<p>fields that will be ignored on validation</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>filterBy</code></td>
+							<td><span class="param-type">String</span> | <span class="param-type">Array.&lt;String></span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>field or array of fields that will be used by primary key on the collection</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-13">line 13</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~connectionObject" class="typedef public"><span class="name">connectionObject</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>db</code></td>
+							<td><span class="param-type">MongoClient.db</span></td>
+							<td class="last">
+									<p>database instance</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>client</code></td>
+							<td><span class="param-type">MongoClient</span></td>
+							<td class="last">
+									<p>MongoClient instance</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">Object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-22">line 22</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~differenceDetails" class="typedef public"><span class="name">differenceDetails</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+							<th>Attributes</th>
+							<th>Default</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>dbName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>name of the database</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>result</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes">&lt;optional&gt;<br/></td>
+								<td>&#x27;not exists&#x27;</td>
+							<td class="last">
+									<p>if one of the documents on compare does no exists this property is returned</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>theRestOfPropsOnTheObjectResult</code></td>
+							<td><span class="param-type">object</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>all the properties on document that throws error on compare</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-28">line 28</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~differenceObject" class="typedef public"><span class="name">differenceObject</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>currentDocument</code></td>
+							<td><span class="param-type">differenceDetails</span></td>
+							<td class="last">
+							</td>
+						</tr>
+						<tr>
+								<td><code>previousDocument</code></td>
+							<td><span class="param-type">differenceDetails</span></td>
+							<td class="last">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-35">line 35</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~differenceResult" class="typedef public"><span class="name">differenceResult</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>collectionName</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>name of the collection</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>differences</code></td>
+							<td><span class="param-type">differenceObject</span></td>
+							<td class="last">
+									<p>object with the two document's differences</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-41">line 41</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~collectionDocumentsResult" class="typedef public"><span class="name">collectionDocumentsResult</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>dbName</code></td>
+							<td><span class="param-type">String</span></td>
+							<td class="last">
+									<p>database name</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>documents</code></td>
+							<td><span class="param-type">Array.&lt;object></span></td>
+							<td class="last">
+									<p>array with the documents of collection</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-47">line 47</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+											<hr/>
+											<dt class="symbol-title typedef public collapsible-symbol">
+			<h4 id="~documentDifferenceOptions" class="typedef public"><span class="name">documentDifferenceOptions</span></h4>
+		</dt>
+<dd class="symbol-details typedef public  collapsible-symbol">
+	<div class="symbol-details-inner">
+			<div class="callout callout-info">
+				<h5>Properties</h5>
+				<table class="params table table-striped">
+					<thead>
+					<tr>
+							<th>Name</th>
+						<th>Type</th>
+							<th>Attributes</th>
+							<th>Default</th>
+						<th class="last">Description</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+								<td><code>currentDbName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>current database name</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>previousDbName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>previous database name</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>collectionName</code></td>
+							<td><span class="param-type">String</span></td>
+								<td class="attributes"></td>
+								<td></td>
+							<td class="last">
+									<p>name of the collection</p>
+							</td>
+						</tr>
+						<tr>
+								<td><code>ignoreFields</code></td>
+							<td><span class="param-type">Array.&lt;String></span></td>
+								<td class="attributes">&lt;optional&gt;<br/></td>
+								<td>[&#x27;_id&#x27;]</td>
+							<td class="last">
+									<p>array with the fields that will be ignored on validation</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="callout callout-default"><h5>Details</h5>		<form class="form-horizontal details">
+			
+							<!-- type -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Type</label>
+								<div class="col-sm-9">
+									<div class="form-control-static type-names"><span class="param-type">object</span></div>
+								</div>
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							<!-- source -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Source</label>
+								<div class="col-sm-9">
+									<p class="form-control-static"><a href="lib_index.js.html">lib/index.js</a>, <a href="lib_index.js.html#line-53">line 53</a></p>
+								</div>
+							</div>
+			
+			
+			
+			
+					</form>
+			</div>	</div>
+</dd>
+									</dl>
+							</article>
+					</section>
+			</div>
+				<div class="col-md-3 side-content">
+					<nav class="toc hidden-print hidden-sm hidden-xs"></nav>
+				</div>
+		</div>
+	</div>
+	<footer>
+				<div class="copyright">Mongo Compare Copyright © 2020</div>
+			<div class="generated-by">Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on 18th Apr 2020 using the <a href="https://github.com/steveush/foodoc">FooDoc template</a>.</div>
+	</footer>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/clipboard.min.js"></script>
+	<script src="js/prism.min.js"></script>
+	<script src="js/template.min.js"></script>
+		<!-- start:lunr-search-modal.hbs -->
+		<div class="modal fade" id="lunr-search-modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Search results</h4>
+					</div>
+					<div class="modal-body" id="lunr-search-body">
+					</div>
+					<div class="modal-footer" id="lunr-search-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+		<!-- end:lunr-search-modal.hbs -->		<script src="js/lunr.min.js"></script>
+	
+</body>
+</html>

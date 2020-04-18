@@ -1,0 +1,383 @@
+<!-- start:source.tmpl.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+		<title>index.js</title>
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+		<link type="text/css" rel="stylesheet" href="css/prism.min.css">
+		<link type="text/css" rel="stylesheet" href="css/template.min.css">
+		<script type="text/javascript">
+			window.TEMPLATE_OPTIONS = {"includeDate":true,"dateFormat":"Do MMM YYYY","systemName":"Mongo Compare","systemSummary":"documentação geral do projeto","systemLogo":"","systemColor":"","navMembers":[{"kind":"class","title":"Classes","summary":"All documented classes."},{"kind":"external","title":"Externals","summary":"All documented external members."},{"kind":"global","title":"Globals","summary":"All documented globals."},{"kind":"mixin","title":"Mixins","summary":"All documented mixins."},{"kind":"interface","title":"Interfaces","summary":"All documented interfaces."},{"kind":"module","title":"Modules","summary":"All documented modules."},{"kind":"namespace","title":"Namespaces","summary":"All documented namespaces."},{"kind":"tutorial","title":"Tutorials","summary":"All available tutorials."}],"footer":"","copyright":"Mongo Compare Copyright © 2020","linenums":true,"collapseSymbols":true,"inverseNav":true,"inlineNav":false,"outputSourceFiles":true,"sourceRootPath":null,"disablePackagePath":true,"outputSourcePath":false,"showTableOfContents":true,"showAccessFilter":true,"analytics":null,"methodHeadingReturns":true,"sort":"linenum, longname, version, since","search":true,"favicon":null,"stylesheets":[],"scripts":[],"monospaceLinks":false,"cleverLinks":false};
+			window.DOCLET_TOC_ENABLED = false;
+			window.DOCLET_AFILTER_ENABLED = false;
+		</script>
+</head>
+<body>
+	<!-- start:navbar.hbs -->
+	<header class="navbar navbar-default navbar-fixed-top navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">
+					Mongo Compare
+				</a>
+				<!-- displayed on small devices -->
+				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="navbar-collapse collapse" id="topNavigation">
+				<ul class="nav navbar-nav">
+								<li class="dropdown">
+									<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Globals<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+											<li><a href="global.html#collectionDocumentsResult">collectionDocumentsResult</a></li>
+											<li><a href="global.html#collectionsConfig">collectionsConfig</a></li>
+											<li><a href="global.html#connectionObject">connectionObject</a></li>
+											<li><a href="global.html#connectToDataBase">connectToDataBase</a></li>
+											<li><a href="global.html#differenceDetails">differenceDetails</a></li>
+											<li><a href="global.html#differenceObject">differenceObject</a></li>
+											<li><a href="global.html#differenceResult">differenceResult</a></li>
+											<li><a href="global.html#documentDifferenceOptions">documentDifferenceOptions</a></li>
+											<li><a href="global.html#getCollectionDifferences">getCollectionDifferences</a></li>
+											<li><a href="global.html#getCollectionDocuments">getCollectionDocuments</a></li>
+											<li><a href="global.html#getDocumentsDifference">getDocumentsDifference</a></li>
+											<li><a href="global.html#removeDuplicateResults">removeDuplicateResults</a></li>
+									</ul>
+								</li>
+				</ul>
+					<!-- start:lunr-search-navbar.hbs -->
+					<form class="navbar-form navbar-right" role="search">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search" id="lunr-search-input">
+							<div class="input-group-btn">
+								<button class="btn btn-default" id="lunr-search-submit">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+					<!-- start:lunr-search-navbar.hbs -->		</div>
+		</div>
+	</header>
+	<!-- end:navbar.hbs -->		<div class="page-header">
+			<div class="container">
+				<span class="kind">source</span>
+				<h1><span class="name">index.js</span></h1>
+			</div>
+		</div>
+	<div class="container content">
+		<div class="row">
+			<div class="col-md-12 main-content">
+		<section class="source-section">
+			<article></article>
+			<pre class="prettyprint source language-javascript line-numbers"><code class="language-javascript">const chai = require('chai');
+const chaiExclude = require('chai-exclude');
+const { MongoClient } = require('mongodb');
+
+const logger = require('./helpers/logger');
+
+chai.use(chaiExclude);
+
+const url = 'mongodb://localhost:27017';
+
+const dbName = 'RC17_PROD_NEW';
+
+/**
+ * @typedef {object} collectionsConfig
+ * @property {String} url URI of the database
+ * @property {String} dbName name of the database
+ * @property {String} collectionName name of the collection
+ * @property {String[]} [ignoreFields=['_id']] fields that will be ignored on validation
+ * @property {String} filterBy field that will be used by primary key on the collection
+ */
+
+/**
+ * @typedef {Object} connectionObject
+ * @property {MongoClient.db} db database instance
+ * @property {MongoClient} client MongoClient instance
+ */
+
+/**
+ * @typedef {object} differenceDetails
+ * @property {String} dbName name of the database
+ * @property {String} [result='not exists'] if one of the documents on compare does no exists this property is returned
+ * @property {object} theRestOfPropsOnTheObjectResult all the properties on document that throws error on compare
+ */
+
+/**
+ * @typedef {object} differenceObject
+ * @property {differenceDetails} currentDocument
+ * @property {differenceDetails} previousDocument
+ */
+
+/**
+ * @typedef {object} differenceResult
+ * @property {String} collectionName name of the collection
+ * @property {differenceObject} differences object with the two document's differences
+ */
+
+/**
+ * @typedef {object} collectionDocumentsResult
+ * @property {String} dbName database name
+ * @property {object[]} documents array with the documents of collection
+ */
+
+/**
+ * @typedef {object} documentDifferenceOptions
+ * @property {String} currentDbName current database name
+ * @property {String} previousDbName previous database name
+ * @property {String} collectionName name of the collection
+ * @property {String[]} [ignoreFields=['_id']] array with the fields that will be ignored on validation
+ */
+
+/**
+ * function that connect with database
+ * @function connectToDataBase
+ * @param {String} databaseUrl URI of database
+ * @param {String} databaseName name of the database
+ * @returns {Promise&lt;connectionObject>} promise that contains the database instance and the MongoClient instance
+ */
+function connectToDataBase(databaseUrl, databaseName) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            databaseUrl,
+            { useUnifiedTopology: true },
+            (err, client) => {
+                if (err) {
+                    client.close();
+                    return reject(err);
+                }
+
+                logger.info(
+                    `Connected with success to ${databaseName} on ${databaseUrl}`
+                );
+
+                return resolve({ db: client.db(databaseName), client });
+            }
+        );
+    });
+}
+
+/**
+ * function that get all the documents of a collection
+ * @function getCollectionDocuments
+ * @param {String} databaseUrl URI of the database
+ * @param {String} databaseName name of the database
+ * @param {String} collectionName name of the collection
+ * @returns {Promise&lt;collectionDocumentsResult>} promise with the collection documents and the name of database
+ */
+async function getCollectionDocuments(
+    databaseUrl,
+    databaseName,
+    collectionName
+) {
+    const { db, client } = await connectToDataBase(databaseUrl, databaseName);
+    const documents = await db.collection(collectionName).find({}).toArray();
+    client.close();
+
+    return {
+        dbName: databaseName,
+        documents,
+    };
+}
+
+/**
+ * function that get the differences between two documents
+ * @param {object&lt;any>} currentDocument the actual document
+ * @param {object&lt;any>} previousDocument the old document
+ * @param {documentDifferenceOptions} documentDifferenceOptions options to configure the parser result
+ * @returns {differenceResult | object&lt;{ differences: 'no diff' }>} return an object with the diferrence details
+ * @throws {Error} error with the message 'you must inform at least one document' in case the document parameters are not informed
+ */
+function getDocumentsDifference(
+    currentDocument,
+    previousDocument,
+    { currentDbName, previousDbName, collectionName, ignoreFields = ['_id'] }
+) {
+    try {
+        if (!currentDocument &amp;&amp; !previousDocument) {
+            throw new Error('you must inform at least one document');
+        }
+
+        if (!currentDocument &amp;&amp; previousDocument) {
+            return {
+                collectionName,
+                differences: {
+                    currentDocument: {
+                        dbName: currentDbName,
+                        result: 'not exists',
+                    },
+                    previousDocument: {
+                        dbName: previousDbName,
+                        ...previousDocument,
+                    },
+                },
+            };
+        }
+
+        if (currentDocument &amp;&amp; !previousDocument) {
+            return {
+                collectionName,
+                differences: {
+                    previousDocument: {
+                        dbName: previousDbName,
+                        result: 'not exists',
+                    },
+                    currentDocument: {
+                        dbName: currentDbName,
+                        ...currentDocument,
+                    },
+                },
+            };
+        }
+
+        chai.expect(currentDocument)
+            .excluding(ignoreFields)
+            .to.deep.equal(previousDocument);
+        return { differences: 'no diff' };
+    } catch (error) {
+        return {
+            collectionName,
+            differences: {
+                currentDocument: { dbName: currentDbName, ...error.actual },
+                previousDocument: { dbName: previousDbName, ...error.expected },
+            },
+        };
+    }
+}
+
+/**
+ * function that get the differences between two collections
+ * @function getCollectionDifferences
+ * @param {collectionsConfig[]} collectionsConfig arrayn with the collections config to make the compare
+ * @returns {differenceResult[]}
+ */
+async function getCollectionDifferences(collectionsConfig) {
+    const currentCollection = await getCollectionDocuments(
+        collectionsConfig[0].url,
+        collectionsConfig[0].dbName,
+        collectionsConfig[0].collectionName
+    );
+
+    const previousCollection = await getCollectionDocuments(
+        collectionsConfig[1].url,
+        collectionsConfig[1].dbName,
+        collectionsConfig[1].collectionName
+    );
+
+    let results = [];
+
+    currentCollection.documents.forEach((document) => {
+        const oldDocument = previousCollection.documents.find(
+            (d) =>
+                d[collectionsConfig[0].filterBy] ===
+                document[collectionsConfig[0].filterBy]
+        );
+        results.push(
+            getDocumentsDifference(document, oldDocument, {
+                firstDbName: currentCollection.dbName,
+                secondDbName: previousCollection.dbName,
+                collectionName: collectionsConfig[0].collectionName,
+                ignoreFields: collectionsConfig[0].ignoreFields,
+            })
+        );
+    });
+
+    previousCollection.documents.forEach((document) => {
+        const newDocument = currentCollection.documents.find(
+            (d) =>
+                d[collectionsConfig[1].filterBy] ===
+                document[collectionsConfig[1].filterBy]
+        );
+        results.push(
+            getDocumentsDifference(newDocument, document, {
+                firstDbName: currentCollection.dbName,
+                secondDbName: previousCollection.dbName,
+                collectionName: collectionsConfig[0].collectionName,
+                ignoreFields: collectionsConfig[1].ignoreFields,
+            })
+        );
+    });
+
+    results = results.filter((result) => result.differences !== 'no diff');
+    return removeDuplicateResults(results);
+}
+
+/**
+ * function that remove the duplicate items on results array
+ * @function removeDuplicateResults
+ * @param {differenceResult[]} results array with the results
+ * @returns {differenceResult[]} array with the results without duplicate items
+ */
+function removeDuplicateResults(results) {
+    return Array.from(new Set(results.map(JSON.stringify))).map(JSON.parse);
+}
+
+(async () => {
+    try {
+        const collectionsConfig = [
+            {
+                url,
+                dbName,
+                collectionName: 'transferTableDialog',
+                filterBy: 'intent',
+            },
+            {
+                url,
+                dbName: 'RC17_PROD_OLD',
+                collectionName: 'transferTableDialog',
+                filterBy: 'intent',
+            },
+        ];
+
+        const results = await getCollectionDifferences(collectionsConfig);
+        console.table({ results });
+    } catch (error) {
+        logger.error(
+            `Error to get the collections differences - ${error.message}`
+        );
+    }
+})();
+</code></pre>
+		</section>
+			</div>
+		</div>
+	</div>
+	<footer>
+				<div class="copyright">Mongo Compare Copyright © 2020</div>
+			<div class="generated-by">Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on 17th Apr 2020 using the <a href="https://github.com/steveush/foodoc">FooDoc template</a>.</div>
+	</footer>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/clipboard.min.js"></script>
+	<script src="js/prism.min.js"></script>
+	<script src="js/template.min.js"></script>
+		<!-- start:lunr-search-modal.hbs -->
+		<div class="modal fade" id="lunr-search-modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Search results</h4>
+					</div>
+					<div class="modal-body" id="lunr-search-body">
+					</div>
+					<div class="modal-footer" id="lunr-search-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+		<!-- end:lunr-search-modal.hbs -->		<script src="js/lunr.min.js"></script>
+	
+</body>
+</html>
+<!-- end:source.tmpl.hbs -->

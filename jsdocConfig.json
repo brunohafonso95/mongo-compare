@@ -1,0 +1,21 @@
+{
+    "source": {
+        "include": ["src", "README.md"],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "plugins": ["plugins/markdown"],
+    "opts": {
+        "encoding": "utf8",
+        "readme": "./README.md",
+        "destination": "docs",
+        "recurse": true,
+        "verbose": true,
+        "template": "node_modules/foodoc/template"
+    },
+    "templates": {
+        "systemName": "Mongo Compare",
+        "systemSummary": "documentação geral do projeto",
+        "copyright": "Mongo Compare Copyright © 2020"
+    }
+}
