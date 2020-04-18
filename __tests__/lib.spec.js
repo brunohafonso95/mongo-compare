@@ -265,7 +265,6 @@ describe('Suite tests of the auxiliar functions that make the comparasions', () 
         let connection;
 
         beforeAll(() => {
-            console.table({ info: 'inserting on db' });
             MongoClient.connect(process.env.MONGO_URL, (err, client) => {
                 if (err) {
                     throw new Error(
