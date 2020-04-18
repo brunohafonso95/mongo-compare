@@ -1,57 +1,58 @@
 {
-  "name": "mongo-compare",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "license": "MIT",
-  "scripts": {
-    "commit": "git-cz",
-    "docs": "jsdoc -c jsdocConfig.json",
-    "lint": "eslint --fix -f html -o lint.html ./",
-    "test": "jest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    "name": "mongo-compare",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "license": "MIT",
+    "scripts": {
+        "commit": "git-cz",
+        "docs": "jsdoc -c jsdocConfig.json",
+        "lint": "eslint --fix -f html -o lint.html ./",
+        "test": "jest"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "sh .githooks/checkBranchName && lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix -f html -o lint.html",
+            "jest --findRelatedTests",
+            "git add"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "dependencies": {
+        "chai": "^4.2.0",
+        "chai-exclude": "^2.0.2",
+        "mongodb": "^3.5.6",
+        "winston": "^3.2.1"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^8.3.3",
+        "@commitlint/config-conventional": "^8.3.3",
+        "@shelf/jest-mongodb": "^1.1.5",
+        "@sucrase/jest-plugin": "^2.0.0",
+        "clean-jsdoc-theme": "^2.2.11",
+        "commitizen": "^4.0.3",
+        "cross-env": "^7.0.2",
+        "cz-conventional-changelog": "3.0.2",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-config-prettier": "^6.7.0",
+        "eslint-plugin-import": "^2.19.1",
+        "eslint-plugin-import-helpers": "^1.0.2",
+        "eslint-plugin-prettier": "^3.1.2",
+        "foodoc": "^0.0.9",
+        "husky": "^4.2.5",
+        "jest": "^25.3.0",
+        "jsdoc": "^3.6.4",
+        "lint-staged": "^10.1.3",
+        "prettier": "^2.0.4"
     }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix -f html -o lint.html",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "dependencies": {
-    "chai": "^4.2.0",
-    "chai-exclude": "^2.0.2",
-    "mongodb": "^3.5.6",
-    "winston": "^3.2.1"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.3",
-    "@commitlint/config-conventional": "^8.3.3",
-    "@shelf/jest-mongodb": "^1.1.5",
-    "@sucrase/jest-plugin": "^2.0.0",
-    "clean-jsdoc-theme": "^2.2.11",
-    "commitizen": "^4.0.3",
-    "cross-env": "^7.0.2",
-    "cz-conventional-changelog": "3.0.2",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-import-helpers": "^1.0.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "foodoc": "^0.0.9",
-    "husky": "^4.2.5",
-    "jest": "^25.3.0",
-    "jsdoc": "^3.6.4",
-    "lint-staged": "^10.1.3",
-    "prettier": "^2.0.4"
-  }
 }

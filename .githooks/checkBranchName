@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+LC_ALL=C
+
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+valid_branch_release_regex="^(RC)[a-z0-9._-]+$"
+valid_branch_regex="^(feature|bugfix|improvement|library|prerelease|release|hotfix|RC)\/[a-z0-9._-]+$"
+
+message="A branch onde você está comitando [$local_branch] não segue os padrões do projeto ou você está comitando na master, por favor crie uma branch com o nome válido."
+
+if [[ ! $local_branch =~ $valid_branch_regex ]]
+then
+    echo "$message"
+    exit 1
+fi
+
+exit 0
