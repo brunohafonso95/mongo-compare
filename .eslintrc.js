@@ -13,12 +13,15 @@ module.exports = {
         expect: 'readonly',
         beforeEach: 'readonly',
         jest: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
     },
     parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
     },
     rules: {
+        'no-underscore-dangle': 'off',
         'import/prefer-default-export': 'off',
         'prettier/prettier': 'error',
         'class-methods-use-this': 'off',
