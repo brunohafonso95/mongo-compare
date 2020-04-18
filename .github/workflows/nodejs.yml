@@ -16,13 +16,13 @@ jobs:
         node-version: 12.x
 
     - name: Install dependencies
-    - run: yarn
+      run: yarn
 
     - name: Run linting
-    - run: yarn lint
+      run: yarn lint
 
     - name: Run Automated test
-    - run: yarn test
+      run: yarn test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
