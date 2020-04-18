@@ -14,7 +14,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+
+    - name: Install dependencies
     - run: yarn
+
+    - name: Run linting
+    - run: yarn lint
+
+    - name: Run Automated test
     - run: yarn test
       env:
         CI: true
