@@ -20,7 +20,7 @@
             "eslint --fix -f html -o lint.html",
             "jest --findRelatedTests",
             "git add"
-        ]]
+        ]
     },
     "config": {
         "commitizen": {
