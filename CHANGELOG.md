@@ -1,5 +1,6 @@
 # 1.0.0 (2020-04-19)
 
+
 ### ci
 
 * add step to check the commit messages ([94db855](https://github.com/brunohafonso95/mongo-compare/commit/94db8557478f56b0a5122d0243969452d1b50a1c))
@@ -13,11 +14,11 @@
 
 * add documentation of project source with jsdoc ([1dc3bbb](https://github.com/brunohafonso95/mongo-compare/commit/1dc3bbb9816e82ee6ada3b65393b0172113f86ab))
 * update the readme and create the changelog ([a10b144](https://github.com/brunohafonso95/mongo-compare/commit/a10b1446a50d12c8726e2e027bec7eaf2add0f00))
-* update the README documentation ([28a932c](https://github.com/brunohafonso95/mongo-compare/commit/28a932c5b5a2dd85b9bb0cec3452b783defc58bb))
 
 ### feat
 
 * add linting to the project ([3652a49](https://github.com/brunohafonso95/mongo-compare/commit/3652a4992ba3290e4fcba2434fc23bca62a6609b))
+* add the functions on cli to create the config of package ([45f040c](https://github.com/brunohafonso95/mongo-compare/commit/45f040ce5471753abb90a408e9b6fcfc6a8576d2))
 * add the logger with winston in the project ([16adaf6](https://github.com/brunohafonso95/mongo-compare/commit/16adaf65085bee5bd360876bae0cb05a14e274fb))
 * add the run tests to hooks and the validation of branch name ([7123911](https://github.com/brunohafonso95/mongo-compare/commit/7123911cd5b425ca930b0f5d902a00e0bbea7a78))
 * add the script to make the mongoDB compares ([801ae27](https://github.com/brunohafonso95/mongo-compare/commit/801ae2712e774364150eedb44b6321497510b46b))
