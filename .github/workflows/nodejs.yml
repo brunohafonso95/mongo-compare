@@ -7,9 +7,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Git Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Check commit messages
+      uses: wagoid/commitlint-github-action@v1
+
     - name: Install Node.js 12.x
       uses: actions/setup-node@v1
       with:
