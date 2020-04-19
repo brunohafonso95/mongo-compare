@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "main": "src/index.js",
     "license": "MIT",
+    "bin": {
+        "mongo-compare": "src/cli/index.js"
+    },
     "scripts": {
         "commit": "git-cz",
         "docs": "jsdoc -c jsdocConfig.json",
@@ -30,6 +33,10 @@
     "dependencies": {
         "chai": "^4.2.0",
         "chai-exclude": "^2.0.2",
+        "chalk": "^4.0.0",
+        "cmdify": "^0.0.4",
+        "commander": "^5.0.0",
+        "inquirer": "^7.1.0",
         "mongodb": "^3.5.6",
         "winston": "^3.2.1"
     },
