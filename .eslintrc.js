@@ -15,6 +15,7 @@ module.exports = {
         jest: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
+        afterEach: 'readonly'
     },
     parserOptions: {
         ecmaVersion: 2018,

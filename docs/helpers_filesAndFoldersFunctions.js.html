@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-		<title>helpers/logger.js</title>
+		<title>helpers/filesAndFoldersFunctions.js</title>
 		<!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -67,7 +67,7 @@
 	<!-- end:navbar.hbs -->		<div class="page-header">
 			<div class="container">
 				<span class="kind">source</span>
-				<h1><span class="name">helpers/logger.js</span></h1>
+				<h1><span class="name">helpers/filesAndFoldersFunctions.js</span></h1>
 			</div>
 		</div>
 	<div class="container content">
@@ -75,42 +75,167 @@
 			<div class="col-md-12 main-content">
 		<section class="source-section">
 			<article></article>
-			<pre class="prettyprint source language-javascript line-numbers"><code class="language-javascript">const { createLogger, transports: Transports, format } = require('winston');
+			<pre class="prettyprint source language-javascript line-numbers"><code class="language-javascript">const chalk = require('chalk');
+const fs = require('fs');
+const path = require('path');
 
-const { combine, colorize, timestamp, align, printf, simple, splat } = format;
-
-const customFormat = combine(
-    colorize(),
-    timestamp(),
-    align(),
-    splat(),
-    simple(),
-    printf(({ message, level, timestamp: time }) => {
-        return `[${time}] [${level}] - ${message.trim()}`;
-    })
-);
-
-const loggerOptions = {
-    console: {
-        level: 'info',
-        handleExceptions: true,
-        json: false,
-        colorize: true,
-        format: customFormat,
-    },
-};
-
-const logger = createLogger({
-    transports: [new Transports.Console(loggerOptions.console)],
-    exceptionHandlers: [new Transports.Console(loggerOptions.console)],
-    exitOnError: false,
-});
+const logger = require('./logger');
 
 /**
- * Module that provides the configured logger
- * @name module:Helpers.logger
+ * function that check if file or folder exists
+ * @function module:Helpers.checkIfFileOrFolderExists
+ * @param {String} fileOrFolderPath the path of file or folder
+ * @returns {Boolean} boolean that indicates if the file or folder exists
  */
-module.exports = logger;
+function checkIfFileOrFolderExists(fileOrFolderPath) {
+    const fullPath = path.resolve(fileOrFolderPath);
+    return fs.existsSync(fullPath);
+}
+
+/**
+ * function that create a new file
+ * @function module:Helpers.createNewFile
+ * @param {String} filePath file path that will be created
+ * @param {String} fileContent file content that will be created
+ * @returns {void}
+ */
+function createNewFile(filePath, fileContent) {
+    const fullPath = path.resolve(filePath);
+    return fs.writeFileSync(fullPath, fileContent);
+}
+
+/**
+ * function that create a new folder
+ * @function module:Helpers.createNewFolder
+ * @param {String} folderPath folder path that will be created
+ * @returns {void}
+ */
+function createNewFolder(folderPath) {
+    const fullPath = path.resolve(folderPath);
+    return fs.mkdirSync(fullPath, { recursive: true });
+}
+
+/**
+ * function that remove a folder
+ * @function module:Helpers.removeFolder
+ * @param {String} folderPath path of folder that will be removed
+ * @returns {void}
+ */
+function removeFolder(folderPath) {
+    const fullPath = path.resolve(folderPath);
+    return fs.rmdirSync(fullPath, { recursive: true });
+}
+
+/**
+ * function that create a new Json config file
+ * @function module:Helpers.createJsonConfigFile
+ * @param {configOptions} configOptions configuration options that will be included on file
+ * @returns {void}
+ * @throws {Error} error if something unexpected happens during the process
+ */
+function createJsonConfigFile(configOptions) {
+    try {
+        const {
+            outputFormat,
+            outputConfigFilePath,
+            outputResultFolderPath,
+        } = configOptions;
+        createNewFile(
+            `${outputConfigFilePath}.json`,
+            JSON.stringify(
+                {
+                    outputFormat,
+                    outputResultFolderPath,
+                    collectionsConfig: [],
+                },
+                null,
+                2
+            )
+        );
+
+        return logger.info(
+            `the config file (${outputConfigFilePath}.json) was successfully created.`
+        );
+    } catch (error) {
+        logger.error(
+            `error to create the config file, please check the configurations - [Error details: ${error.message}]`
+        );
+
+        throw error;
+    }
+}
+
+/**
+ * function that create js config file
+ * @function module:Helpers.createJsConfigFile
+ * @param {configOptions} configOptions configuration options that will be included on file
+ * @returns {void}
+ * @throws error if something unexpected happens during the process
+ */
+function createJsConfigFile(configOptions) {
+    try {
+        const {
+            outputFormat,
+            outputConfigFilePath,
+            outputResultFolderPath,
+        } = configOptions;
+        createNewFile(
+            `${outputConfigFilePath}.js`,
+            `module.exports = { outputFormat: '${outputFormat}', outputResultFolderPath: '${outputResultFolderPath}', collectionsConfig: [],  }`
+        );
+        return logger.info(
+            `the config file (${outputConfigFilePath}.js) was successfully created.`
+        );
+    } catch (error) {
+        logger.error(
+            `error to create the config file, please check the configurations - [Error details: ${error.message}]`
+        );
+
+        throw error;
+    }
+}
+
+/**
+ * function that create the folder that will contains de the compare results
+ * @function module:Helpers.createResultFolder
+ * @param {any} folderPath path of the folder that will be created
+ * @param {any} [overrideFolder=false] boolean that indicates if the old folder will be removed
+ * @returns {void}
+ * @throws error if something unexpected happens during the process
+ */
+function createResultFolder(folderPath, overrideFolder = false) {
+    try {
+        if (overrideFolder) {
+            removeFolder(folderPath);
+            logger.info(
+                `the old folder ${chalk.yellow(
+                    folderPath
+                )} was successfully removed`
+            );
+        }
+
+        createNewFolder(folderPath);
+        return logger.info(
+            `the folder ${chalk.yellow(folderPath)} was successfully created`
+        );
+    } catch (error) {
+        logger.error(
+            `error to create the new folder - [Error details: ${error.message}]`
+        );
+
+        throw error;
+    }
+}
+
+module.exports = {
+    removeFolder,
+    createNewFile,
+    createNewFolder,
+    createResultFolder,
+    createJsConfigFile,
+    createJsonConfigFile,
+    checkIfFileOrFolderExists,
+};
 </code></pre>
 		</section>
 			</div>
