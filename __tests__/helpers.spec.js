@@ -1,6 +1,5 @@
 const chalk = require('chalk');
 const fs = require('fs');
-const path = require('path');
 
 const { promptMessages, filesAndFolders } = require('../src/helpers');
 
@@ -136,14 +135,12 @@ describe('Test suite to helpers module', () => {
             try {
                 filesAndFolders.createJsConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
+                    outputConfigFilePath: '',
                     outputResultFolderPath: 'test',
                 });
             } catch (error) {
                 expect(error.message).toEqual(
-                    `ENOENT: no such file or directory, open '${path.resolve(
-                        '*32131232143fdfsdfd-- --- test.js'
-                    )}'`
+                    'you should inform the file path'
                 );
             }
         });
@@ -171,14 +168,12 @@ describe('Test suite to helpers module', () => {
             try {
                 filesAndFolders.createJsonConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
+                    outputConfigFilePath: '',
                     outputResultFolderPath: 'test',
                 });
             } catch (error) {
                 expect(error.message).toEqual(
-                    `ENOENT: no such file or directory, open '${path.resolve(
-                        '*32131232143fdfsdfd-- --- test.json'
-                    )}'`
+                    'you should inform the file path'
                 );
             }
         });
@@ -204,15 +199,20 @@ describe('Test suite to helpers module', () => {
 
         it('should throw an error', () => {
             try {
-                filesAndFolders.createResultFolder(
-                    '*32131232143fdfsdfd-- --- test',
-                    true
-                );
+                filesAndFolders.createResultFolder('');
             } catch (error) {
                 expect(error.message).toEqual(
-                    `ENOENT: no such file or directory, mkdir '${path.resolve(
-                        '*32131232143fdfsdfd-- --- test'
-                    )}'`
+                    'you should inform the folder path'
+                );
+            }
+        });
+
+        it('should throw an error on remove old folder', () => {
+            try {
+                filesAndFolders.createResultFolder('', true);
+            } catch (error) {
+                expect(error.message).toEqual(
+                    'you should inform the folder path'
                 );
             }
         });
