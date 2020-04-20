@@ -265,24 +265,28 @@ describe('Suite tests of the auxiliar functions that make the comparasions', () 
         let connection;
 
         beforeAll(() => {
-            MongoClient.connect(process.env.MONGO_URL, (err, client) => {
-                if (err) {
-                    throw new Error(
-                        `Error to connect to database - ${err.message}`
-                    );
+            MongoClient.connect(
+                process.env.MONGO_URL,
+                { useUnifiedTopology: true, useNewUrlParser: true },
+                (err, client) => {
+                    if (err) {
+                        throw new Error(
+                            `Error to connect to database - ${err.message}`
+                        );
+                    }
+
+                    connection = client;
+
+                    client
+                        .db('jest')
+                        .collection('test1')
+                        .insert({ name: 'test', prop1: 1 });
+                    client
+                        .db('jest')
+                        .collection('test2')
+                        .insert({ name: 'test2', prop1: 2 });
                 }
-
-                connection = client;
-
-                client
-                    .db('jest')
-                    .collection('test1')
-                    .insert({ name: 'test', prop1: 1 });
-                client
-                    .db('jest')
-                    .collection('test2')
-                    .insert({ name: 'test2', prop1: 2 });
-            });
+            );
         });
 
         afterAll(() => {

@@ -135,7 +135,7 @@ describe('Test suite to helpers module', () => {
             expect(() => {
                 filesAndFolders.createJsConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '*test',
+                    outputConfigFilePath: '* test',
                     outputResultFolderPath: 'test',
                 });
             }).toThrow();
@@ -164,7 +164,7 @@ describe('Test suite to helpers module', () => {
             expect(() => {
                 filesAndFolders.createJsonConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '*test',
+                    outputConfigFilePath: '* test',
                     outputResultFolderPath: 'test',
                 });
             }).toThrow();
@@ -191,7 +191,7 @@ describe('Test suite to helpers module', () => {
 
         it('should create a new folder', () => {
             expect(() => {
-                filesAndFolders.createResultFolder('*test/test', true);
+                filesAndFolders.createResultFolder('* test/test', true);
             }).toThrow();
         });
     });
