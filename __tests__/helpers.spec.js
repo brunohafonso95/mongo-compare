@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const path = require('path');
 
 const { promptMessages, filesAndFolders } = require('../src/helpers');
 
@@ -132,13 +133,19 @@ describe('Test suite to helpers module', () => {
         });
 
         it('should throw an error', () => {
-            expect(() => {
+            try {
                 filesAndFolders.createJsConfigFile({
                     outputFormat: 'json',
                     outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
                     outputResultFolderPath: 'test',
                 });
-            }).toThrow();
+            } catch (error) {
+                expect(error.message).toEqual(
+                    `ENOENT: no such file or directory, open '${path.resolve(
+                        '*32131232143fdfsdfd-- --- test.js'
+                    )}'`
+                );
+            }
         });
     });
 
@@ -161,13 +168,19 @@ describe('Test suite to helpers module', () => {
         });
 
         it('should throw an error', () => {
-            expect(() => {
+            try {
                 filesAndFolders.createJsonConfigFile({
                     outputFormat: 'json',
                     outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
                     outputResultFolderPath: 'test',
                 });
-            }).toThrow();
+            } catch (error) {
+                expect(error.message).toEqual(
+                    `ENOENT: no such file or directory, open '${path.resolve(
+                        '*32131232143fdfsdfd-- --- test.json'
+                    )}'`
+                );
+            }
         });
     });
 
@@ -182,23 +195,26 @@ describe('Test suite to helpers module', () => {
             expect(result).toEqual(true);
         });
 
-        it('should create a new folder', () => {
+        it('should create a new folder and remove te old folder', () => {
             fs.mkdirSync('test');
             filesAndFolders.createResultFolder('test/test', true);
             const result = fs.existsSync('test/test');
             expect(result).toEqual(true);
         });
 
-        it('should create a new folder', () => {
-            expect(() => {
-                fs.mkdirSync = jest.fn(() => {
-                    throw new Error('unexpected error');
-                });
+        it('should throw an error', () => {
+            try {
                 filesAndFolders.createResultFolder(
-                    '* *32131232143fdfsdfd-- --- test',
+                    '*32131232143fdfsdfd-- --- test',
                     true
                 );
-            }).toThrow();
+            } catch (error) {
+                expect(error.message).toEqual(
+                    `ENOENT: no such file or directory, mkdir '${path.resolve(
+                        '*32131232143fdfsdfd-- --- test'
+                    )}'`
+                );
+            }
         });
     });
 });
