@@ -4,6 +4,10 @@ const Commander = require('commander');
 
 const generateConfigFile = require('./generateConfigFilePrompts');
 
+/**
+ * @module Cli
+ */
+
 async function main() {
     Commander.version(
         `${chalk.green('Mongo-compare')}: ${chalk.bgGreen.black('v1.0.0')}`

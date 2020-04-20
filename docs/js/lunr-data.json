@@ -66,13 +66,18 @@
           "modul",
           "module:help"
         ],
+        "module-Cli.html": [
+          "cli",
+          "modul",
+          "module:cli"
+        ],
         "module-Lib.html": [
           "lib",
           "modul",
           "module:lib"
         ]
       },
-      "length": 5
+      "length": 6
     },
     "tokenStore": {
       "root": {
@@ -115,6 +120,17 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          },
+          "l": {
+            "docs": {},
+            "i": {
+              "docs": {
+                "module-Cli.html": {
+                  "ref": "module-Cli.html",
+                  "tf": 600
                 }
               }
             }
@@ -262,6 +278,10 @@
                       "ref": "module-Helpers.html",
                       "tf": 120
                     },
+                    "module-Cli.html": {
+                      "ref": "module-Cli.html",
+                      "tf": 110
+                    },
                     "module-Lib.html": {
                       "ref": "module-Lib.html",
                       "tf": 110
@@ -283,6 +303,20 @@
                                   "ref": "module-Helpers.html",
                                   "tf": 1300
                                 }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "c": {
+                        "docs": {},
+                        "l": {
+                          "docs": {},
+                          "i": {
+                            "docs": {
+                              "module-Cli.html": {
+                                "ref": "module-Cli.html",
+                                "tf": 1300
                               }
                             }
                           }
@@ -473,9 +507,10 @@
           }
         }
       },
-      "length": 22
+      "length": 25
     },
     "corpusTokens": [
+      "cli",
       "compar",
       "contain",
       "document",
@@ -490,6 +525,7 @@
       "list",
       "list:modul",
       "modul",
+      "module:cli",
       "module:help",
       "module:lib",
       "mongo",
@@ -545,6 +581,17 @@
       "tags": "module:Helpers",
       "summary": "",
       "description": "module that contains the helpers functions and libraries",
+      "body": ""
+    },
+    "module-Cli.html": {
+      "id": "module-Cli.html",
+      "kind": "module",
+      "title": "Cli",
+      "longname": "module:Cli",
+      "name": "Cli",
+      "tags": "module:Cli",
+      "summary": "",
+      "description": "",
       "body": ""
     },
     "module-Lib.html": {

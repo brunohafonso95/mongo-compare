@@ -2,6 +2,22 @@ const inquirer = require('inquirer');
 
 const { promptMessages, filesAndFolders } = require('../helpers');
 
+/**
+ * @typedef {object} configOptions
+ * @property {String} outputConfigFilePath path where the config file will be generetaed
+ * @property {String} outputConfigFileFormat format of the config file
+ * @property {Boolean} generateConfigFileAgain boolean that indicates if the config file will be override
+ * @property {String} outputResultFolderPath path of the folder that the results will be exported
+ * @property {Boolean} generateResultsFolderAgain boolean that indicates if the current export folder will be override
+ * @property {String} outputFormat format the re results will be exported
+ */
+
+/**
+ * function that execute prompts asking the config options and execute the creation
+ * of the config file and folder
+ * @function module:Cli.generateConfigFilePrompts
+ * @returns {configOptions} object with the mongo-compare config options
+ */
 module.exports = async () => {
     const answers = await inquirer.prompt([
         {
@@ -48,7 +64,7 @@ module.exports = async () => {
                     !previousAnswers.generateConfigFileAgain &&
                     previousAnswers.generateConfigFileAgain !== undefined
                 ) {
-                    promptMessages.byeMessage();
+                    console.log(promptMessages.byeMessage());
                     return process.exit(0);
                 }
 
@@ -84,7 +100,7 @@ module.exports = async () => {
                     !previousAnswers.generateResultsFolderAgain &&
                     previousAnswers.generateResultsFolderAgain !== undefined
                 ) {
-                    promptMessages.byeMessage();
+                    console.log(promptMessages.byeMessage());
                     return process.exit(0);
                 }
 
