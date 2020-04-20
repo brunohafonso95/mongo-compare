@@ -23,6 +23,10 @@ function checkIfFileOrFolderExists(fileOrFolderPath) {
  * @returns {void}
  */
 function createNewFile(filePath, fileContent) {
+    if (!filePath) {
+        throw new Error('you should inform the file path');
+    }
+
     const fullPath = path.resolve(filePath);
     return fs.writeFileSync(fullPath, fileContent);
 }
@@ -34,6 +38,10 @@ function createNewFile(filePath, fileContent) {
  * @returns {void}
  */
 function createNewFolder(folderPath) {
+    if (!folderPath) {
+        throw new Error('you should inform the folder path');
+    }
+
     const fullPath = path.resolve(folderPath);
     return fs.mkdirSync(fullPath, { recursive: true });
 }
@@ -45,6 +53,10 @@ function createNewFolder(folderPath) {
  * @returns {void}
  */
 function removeFolder(folderPath) {
+    if (!folderPath) {
+        throw new Error('you should inform the folder path');
+    }
+
     const fullPath = path.resolve(folderPath);
     return fs.rmdirSync(fullPath, { recursive: true });
 }
@@ -64,7 +76,7 @@ function createJsonConfigFile(configOptions) {
             outputResultFolderPath,
         } = configOptions;
         createNewFile(
-            `${outputConfigFilePath}.json`,
+            outputConfigFilePath ? `${outputConfigFilePath}.json` : '',
             JSON.stringify(
                 {
                     outputFormat,
@@ -103,7 +115,7 @@ function createJsConfigFile(configOptions) {
             outputResultFolderPath,
         } = configOptions;
         createNewFile(
-            `${outputConfigFilePath}.js`,
+            outputConfigFilePath ? `${outputConfigFilePath}.js` : '',
             `module.exports = { outputFormat: '${outputFormat}', outputResultFolderPath: '${outputResultFolderPath}', collectionsConfig: [],  }`
         );
         return logger.info(
