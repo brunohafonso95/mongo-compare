@@ -135,7 +135,7 @@ describe('Test suite to helpers module', () => {
             expect(() => {
                 filesAndFolders.createJsConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '* test',
+                    outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
                     outputResultFolderPath: 'test',
                 });
             }).toThrow();
@@ -164,7 +164,7 @@ describe('Test suite to helpers module', () => {
             expect(() => {
                 filesAndFolders.createJsonConfigFile({
                     outputFormat: 'json',
-                    outputConfigFilePath: '* test',
+                    outputConfigFilePath: '*32131232143fdfsdfd-- --- test',
                     outputResultFolderPath: 'test',
                 });
             }).toThrow();
@@ -191,7 +191,13 @@ describe('Test suite to helpers module', () => {
 
         it('should create a new folder', () => {
             expect(() => {
-                filesAndFolders.createResultFolder('* test/test', true);
+                fs.mkdirSync = jest.fn(() => {
+                    throw new Error('unexpected error');
+                });
+                filesAndFolders.createResultFolder(
+                    '* *32131232143fdfsdfd-- --- test',
+                    true
+                );
             }).toThrow();
         });
     });
