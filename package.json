@@ -1,8 +1,27 @@
 {
     "name": "mongo-compare",
+    "description": "CLI to make comparisons between documents in different collections and mongoDB databases",
     "version": "1.0.0",
     "main": "src/index.js",
     "license": "MIT",
+    "homepage": "https://github.com/brunohafonso95/mongo-compare",
+    "keywords": [
+        "mongo",
+        "cli",
+        "automation"
+    ],
+    "author": {
+        "name": "Bruno Afonso",
+        "email": "brunohafonso@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/brunohafonso95/mongo-compare"
+    },
+    "bugs": {
+        "url": "https://github.com/brunohafonso95/mongo-compare/issues",
+        "email": "brunohafonso@gmail.com"
+    },
     "bin": {
         "mongo-compare": "src/cli/index.js"
     },

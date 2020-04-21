@@ -1,6 +1,6 @@
 {
     "source": {
-        "include": ["src", "README.md"],
+        "include": ["src", "README.md", "package.json"],
         "includePattern": ".js$",
         "excludePattern": "(node_modules/|docs)"
     },
@@ -15,7 +15,7 @@
     },
     "templates": {
         "systemName": "Mongo Compare",
-        "systemSummary": "documentação geral do projeto",
+        "systemSummary": "Project documentation",
         "copyright": "Mongo Compare Copyright © 2020"
     }
 }
