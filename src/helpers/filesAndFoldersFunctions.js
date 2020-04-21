@@ -1,8 +1,45 @@
+const Joi = require('@hapi/joi');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 
 const logger = require('./logger');
+
+function loadJsonConfig(filePath) {
+    const fullPath = path.resolve(filePath);
+    if (checkIfFileOrFolderExists(filePath)) {
+        if (validateExtension(fullPath)) {
+            const jsonContent = fs.readFileSync(fullPath, 'utf8');
+            return validateJson(jsonContent);
+        }
+
+        throw new Error('you must inform a json file');
+    }
+
+    throw new Error('the file informed does not exists');
+}
+
+function validateExtension(filePath) {
+    const extension = path.extname(filePath);
+    return ['.json'].includes(extension);
+}
+
+function validateJson(jsonContent) {
+    try {
+        return JSON.parse(jsonContent);
+    } catch (error) {
+        throw new Error('the content of json file is invalid');
+    }
+}
+
+function validateJsonSchema(jsonContent) {
+    const schema = Joi.object({
+        outputFormat: Joi.string(),
+        outputResultFolderPath: Joi.string(),
+        collectionsConfig: Joi.string(),
+    }).length(3);
+    return { jsonContent, schema };
+}
 
 /**
  * function that check if file or folder exists
@@ -165,8 +202,10 @@ function createResultFolder(folderPath, overrideFolder = false) {
 module.exports = {
     removeFolder,
     createNewFile,
+    loadJsonConfig,
     createNewFolder,
     createResultFolder,
+    validateJsonSchema,
     createJsConfigFile,
     createJsonConfigFile,
     checkIfFileOrFolderExists,

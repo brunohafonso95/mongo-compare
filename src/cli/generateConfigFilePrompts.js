@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 
-const { promptMessages, filesAndFolders } = require('../helpers');
+const { promptMessages, filesAndFolders, logger } = require('../helpers');
 
 /**
  * @typedef {object} configOptions
@@ -18,7 +18,24 @@ const { promptMessages, filesAndFolders } = require('../helpers');
  * @function module:Cli.generateConfigFilePrompts
  * @returns {configOptions} object with the mongo-compare config options
  */
-module.exports = async () => {
+module.exports = async (useDefaultOptions) => {
+    if (useDefaultOptions) {
+        logger.info('generating the config with default options');
+        filesAndFolders.createJsonConfigFile({
+            outputFormat: 'json',
+            outputConfigFilePath: 'mongo-compare-config',
+            outputResultFolderPath: 'mongo-compare-results',
+        });
+        filesAndFolders.createResultFolder('mongo-compare-results', true);
+        return {
+            outputConfigFilePath: 'mongo-compare-config',
+            outputConfigFileFormat: 'json',
+            outputResultFolderPath: 'mongo-compare-results',
+            outputFormat: 'json',
+            confirmConfig: true,
+        };
+    }
+
     const answers = await inquirer.prompt([
         {
             type: 'input',
@@ -34,8 +51,9 @@ module.exports = async () => {
         {
             type: 'list',
             name: 'outputConfigFileFormat',
-            message: 'Whats the format of mongo-compare config file ?',
-            choices: ['js', 'json'],
+            message:
+                'Whats the format of mongo-compare config file ? (for while just JSON)',
+            choices: ['json'],
         },
         {
             type: 'confirm',

@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const { MongoClient } = require('mongodb');
 
 const {
@@ -113,13 +114,47 @@ describe('Suite tests of the auxiliar functions that make the comparasions', () 
     });
 
     describe('connectToDataBase()', () => {
-        it('should return an an error on connection', async () => {
+        let connection;
+
+        beforeAll(() => {
+            MongoClient.connect(process.env.MONGO_URL, (err, client) => {
+                if (err) {
+                    throw new Error(
+                        `Error to connect to database - ${err.message}`
+                    );
+                }
+
+                connection = client;
+
+                client
+                    .db('jest')
+                    .collection('test1')
+                    .insert({ name: 'test', prop1: 1 });
+            });
+        });
+
+        afterAll(() => {
+            connection.db('jest').dropCollection('test1');
+            connection.close();
+        });
+
+        it('should return an error on connection', async () => {
             try {
                 await connectToDataBase('mongodb://127.0.0.1:52717', 'jest');
             } catch (error) {
                 expect('connect ECONNREFUSED 127.0.0.1:52717').toEqual(
                     error.message
                 );
+            }
+        });
+
+        it('should return an error on connection informing that the database does not exists', async () => {
+            try {
+                await connectToDataBase(process.env.MONGO_URL, 'gest');
+            } catch (error) {
+                expect(
+                    `the database ${chalk.red('gest')} does not exists`
+                ).toEqual(error.message);
             }
         });
 
@@ -135,6 +170,30 @@ describe('Suite tests of the auxiliar functions that make the comparasions', () 
     });
 
     describe('getCollectionDocuments()', () => {
+        let connection;
+
+        beforeAll(() => {
+            MongoClient.connect(process.env.MONGO_URL, (err, client) => {
+                if (err) {
+                    throw new Error(
+                        `Error to connect to database - ${err.message}`
+                    );
+                }
+
+                connection = client;
+
+                client
+                    .db('jest')
+                    .collection('test1')
+                    .insert({ name: 'test', prop1: 1 });
+            });
+        });
+
+        afterAll(() => {
+            connection.db('jest').dropCollection('test1');
+            connection.close();
+        });
+
         it('should return an object with the databaseName and the documents array', async () => {
             const result = await getCollectionDocuments(
                 process.env.MONGO_URL,
@@ -290,20 +349,71 @@ describe('Suite tests of the auxiliar functions that make the comparasions', () 
         });
 
         it('should return an array with the documents with differences', async () => {
-            const collectionsConfig = [
-                {
+            const collectionsConfig = {
+                currentCollection: {
                     url: process.env.MONGO_URL,
                     dbName: 'jest',
                     collectionName: 'test1',
                     filterBy: 'name',
+                    ignoreFields: '_id',
                 },
-                {
+                previousCollection: {
                     url: process.env.MONGO_URL,
                     dbName: 'jest',
                     collectionName: 'test2',
                     filterBy: 'name',
                 },
-            ];
+            };
+            const result = await getCollectionDifferences(collectionsConfig);
+            expect(result).toEqual([
+                {
+                    collectionName: 'test1',
+                    differences: {
+                        currentDocument: {
+                            dbName: 'jest',
+                            _id: result[0].differences.currentDocument._id,
+                            name: 'test',
+                            prop1: 1,
+                        },
+                        previousDocument: {
+                            dbName: 'jest',
+                            result: 'not exists',
+                        },
+                    },
+                },
+                {
+                    collectionName: 'test1',
+                    differences: {
+                        currentDocument: {
+                            dbName: 'jest',
+                            result: 'not exists',
+                        },
+                        previousDocument: {
+                            dbName: 'jest',
+                            _id: result[1].differences.previousDocument._id,
+                            name: 'test2',
+                            prop1: 2,
+                        },
+                    },
+                },
+            ]);
+        });
+
+        it('using the default ignoreFields should return an array with the documents with differences', async () => {
+            const collectionsConfig = {
+                currentCollection: {
+                    url: process.env.MONGO_URL,
+                    dbName: 'jest',
+                    collectionName: 'test1',
+                    filterBy: 'name',
+                },
+                previousCollection: {
+                    url: process.env.MONGO_URL,
+                    dbName: 'jest',
+                    collectionName: 'test2',
+                    filterBy: 'name',
+                },
+            };
             const result = await getCollectionDifferences(collectionsConfig);
             expect(result).toEqual([
                 {

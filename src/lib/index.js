@@ -119,6 +119,13 @@ function connectToDataBase(databaseUrl, databaseName) {
     });
 }
 
+/**
+ * function that checks if database exists
+ * @function module:Helpers.checkIfDatabaseExists
+ * @param {MongoClient.db} mongoClient instance of mongoDb client
+ * @param {String} databaseName name of the database that will be ckeck if exists
+ * @returns {Boolean} boolean that indicates if the database exists or not
+ */
 async function checkIfDatabaseExists(mongoClient, databaseName) {
     let databaseList = await mongoClient
         .db()
