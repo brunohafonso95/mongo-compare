@@ -3,8 +3,8 @@ module.exports = {
         es6: true,
         node: true,
     },
-    extends: ['airbnb-base', 'prettier'],
-    plugins: ['prettier', 'import-helpers'],
+    extends: ['airbnb-base', 'prettier', 'plugin:security/recommended'],
+    plugins: ['prettier', 'import-helpers', 'security'],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
@@ -15,7 +15,7 @@ module.exports = {
         jest: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
-        afterEach: 'readonly'
+        afterEach: 'readonly',
     },
     parserOptions: {
         ecmaVersion: 2018,
