@@ -1,6 +1,6 @@
 
 <p align="center">
-<a href="https://github.com/brunohafonso95/mongo-compare" target="blank"><img src="mongo-compare-logo.png" width="150" alt="Mongo Compare Logo" /></a>
+<a href="https://github.com/brunohafonso95/mongo-compare" target="blank"><img src="public/images/mongo-compare-logo.png" width="150" alt="Mongo Compare Logo" /></a>
 </p>
 
     Mongo-compare is a CLI to make comparisons between documents in different collections and mongoDB databases.
