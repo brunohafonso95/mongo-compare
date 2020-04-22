@@ -112,8 +112,6 @@ function validateConfigSchema(configContent) {
     return result.value;
 }
 
-console.log({ result: loadJsonConfig('mongo-compare-config.json') });
-
 /**
  * function that check if file or folder exists
  * @function module:Helpers.checkIfFileOrFolderExists
