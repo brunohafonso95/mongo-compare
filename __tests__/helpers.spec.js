@@ -217,4 +217,128 @@ describe('Test suite to helpers module', () => {
             }
         });
     });
+
+    describe('filesAndFolders.loadJsonConfig()', () => {
+        beforeAll(() => {
+            fs.writeFileSync(
+                'validJson.json',
+                JSON.stringify({
+                    outputFormat: 'json',
+                    outputResultFolderPath: 'mongo-compare-results',
+                    collectionsConfig: [
+                        {
+                            currentCollection: {
+                                url: 'teste',
+                                dbName: 'teste',
+                                collectionName: 'teste',
+                                filterBy: 'teste',
+                            },
+                            previousCollection: {
+                                url: 'teste',
+                                dbName: 'teste',
+                                collectionName: 'teste',
+                                filterBy: ['teste', 'test'],
+                            },
+                        },
+                    ],
+                })
+            );
+
+            fs.writeFileSync(
+                'invalidJsonConfig.json',
+                JSON.stringify({
+                    outputFormat: '',
+                    outputResultFolderPath: 'mongo-compare-results',
+                    collectionsConfig: [
+                        {
+                            currentCollection: {
+                                url: 'teste',
+                                dbName: 'teste',
+                                collectionName: 'teste',
+                                filterBy: 'teste',
+                            },
+                            previousCollection: {
+                                url: 'teste',
+                                dbName: 'teste',
+                                collectionName: 'teste',
+                                filterBy: ['teste', 'test'],
+                            },
+                        },
+                    ],
+                })
+            );
+
+            fs.writeFileSync('invalidJson.json', 'blablabla');
+            fs.writeFileSync('invalidFormat.js', 'blablabla');
+        });
+
+        afterAll(() => {
+            fs.unlinkSync('invalidFormat.js');
+            fs.unlinkSync('invalidJson.json');
+            fs.unlinkSync('validJson.json');
+            fs.unlinkSync('invalidJsonConfig.json');
+        });
+
+        it('should return the valid config', () => {
+            const result = filesAndFolders.loadJsonConfig('validJson.json');
+            expect(result).toEqual({
+                outputFormat: 'json',
+                outputResultFolderPath: 'mongo-compare-results',
+                collectionsConfig: [
+                    {
+                        currentCollection: {
+                            url: 'teste',
+                            dbName: 'teste',
+                            collectionName: 'teste',
+                            filterBy: 'teste',
+                        },
+                        previousCollection: {
+                            url: 'teste',
+                            dbName: 'teste',
+                            collectionName: 'teste',
+                            filterBy: ['teste', 'test'],
+                        },
+                    },
+                ],
+            });
+        });
+
+        it('should return an error because the json is invalid', () => {
+            try {
+                filesAndFolders.loadJsonConfig('invalidJson.json');
+            } catch (error) {
+                expect(error.message).toEqual(
+                    'the content of json file is invalid'
+                );
+            }
+        });
+
+        it('should return an error because the json file does no exists', () => {
+            try {
+                filesAndFolders.loadJsonConfig('blabla.json');
+            } catch (error) {
+                expect(error.message).toEqual(
+                    'the file informed does not exists'
+                );
+            }
+        });
+
+        it('should return an error because the file extension is invalid', () => {
+            try {
+                filesAndFolders.loadJsonConfig('invalidFormat.js');
+            } catch (error) {
+                expect(error.message).toEqual('you must inform a json file');
+            }
+        });
+
+        it('should return an error because the object in file does not match with the schema', () => {
+            try {
+                filesAndFolders.loadJsonConfig('invalidJsonConfig.json');
+            } catch (error) {
+                expect(error.message).toEqual(
+                    `"outputFormat" must be one of [json, html]`
+                );
+            }
+        });
+    });
 });

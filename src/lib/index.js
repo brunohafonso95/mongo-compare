@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiExclude = require('chai-exclude');
+const chalk = require('chalk');
 const { MongoClient } = require('mongodb');
 
 const { logger } = require('../helpers');
@@ -12,6 +13,12 @@ chai.use(chaiExclude);
 
 /**
  * @typedef {object} collectionsConfig
+ * @property {collectionConfig} currentCollection current collection config
+ * @property {collectionConfig} previousCollection previous collection config
+ */
+
+/**
+ * @typedef {object} collectionConfig
  * @property {String} url URI of the database
  * @property {String} dbName name of the database
  * @property {String} collectionName name of the collection
@@ -67,7 +74,11 @@ chai.use(chaiExclude);
  */
 function connectToDataBase(databaseUrl, databaseName) {
     return new Promise((resolve, reject) => {
-        logger.info(`Connecting to ${databaseName} on ${databaseUrl}`);
+        logger.info(
+            `Connecting to ${chalk.yellow(databaseName)} on ${chalk.yellow(
+                databaseUrl
+            )}`
+        );
         MongoClient.connect(
             databaseUrl,
             {
@@ -75,19 +86,53 @@ function connectToDataBase(databaseUrl, databaseName) {
                 useNewUrlParser: true,
                 serverSelectionTimeoutMS: 3000,
             },
-            (err, client) => {
+            async (err, client) => {
                 if (err) {
                     return reject(err);
                 }
 
-                logger.info(
-                    `Connected with success to ${databaseName} on ${databaseUrl}`
+                const databaseExists = await checkIfDatabaseExists(
+                    client,
+                    databaseName
                 );
 
-                return resolve({ db: client.db(databaseName), client });
+                if (databaseExists) {
+                    logger.info(
+                        `Connected with success to ${chalk.yellow(
+                            databaseName
+                        )} on ${chalk.yellow(databaseUrl)}`
+                    );
+
+                    return resolve({ db: client.db(databaseName), client });
+                }
+
+                client.close();
+                return reject(
+                    new Error(
+                        `the database ${chalk.red(
+                            databaseName
+                        )} does not exists`
+                    )
+                );
             }
         );
     });
+}
+
+/**
+ * function that checks if database exists
+ * @function module:Helpers.checkIfDatabaseExists
+ * @param {MongoClient.db} mongoClient instance of mongoDb client
+ * @param {String} databaseName name of the database that will be ckeck if exists
+ * @returns {Boolean} boolean that indicates if the database exists or not
+ */
+async function checkIfDatabaseExists(mongoClient, databaseName) {
+    let databaseList = await mongoClient
+        .db()
+        .admin()
+        .listDatabases({ nameOnly: true });
+    databaseList = databaseList.databases.map(({ name }) => name);
+    return databaseList.includes(databaseName);
 }
 
 /**
@@ -104,13 +149,27 @@ async function getCollectionDocuments(
     collectionName
 ) {
     const { db, client } = await connectToDataBase(databaseUrl, databaseName);
-    logger.info(`Getting documents from ${collectionName} on ${databaseName}`);
+    logger.info(
+        `Getting documents from ${chalk.yellow(
+            collectionName
+        )} on ${chalk.yellow(databaseName)}`
+    );
     const documents = await db.collection(collectionName).find({}).toArray();
     client.close();
-
     logger.info(
-        `Documents from ${collectionName} on ${databaseName} was get with success`
+        `Documents from ${chalk.yellow(collectionName)} on ${chalk.yellow(
+            databaseName
+        )} was get with success`
     );
+
+    if (!documents.length) {
+        logger.warn(
+            `the collection ${chalk.yellow(collectionName)} on ${chalk.yellow(
+                databaseName
+            )} does not have documents`
+        );
+    }
+
     return {
         dbName: databaseName,
         documents,
@@ -203,15 +262,15 @@ function getDocumentsDifference(
  */
 function filterByKeys(currentObject, nextObject, keys) {
     if (!Array.isArray(keys)) {
-        return currentObject[keys] === nextObject[keys];
+        return currentObject[String(keys)] === nextObject[String(keys)];
     }
 
     return keys
         .map((key) => {
-            return typeof currentObject[key] === 'string'
-                ? currentObject[key] === nextObject[key]
-                : JSON.stringify(currentObject[key]) ===
-                      JSON.stringify(nextObject[key]);
+            return typeof currentObject[String(key)] === 'string'
+                ? currentObject[String(key)] === nextObject[String(key)]
+                : JSON.stringify(currentObject[String(key)]) ===
+                      JSON.stringify(nextObject[String(key)]);
         })
         .every((res) => res);
 }
@@ -219,78 +278,88 @@ function filterByKeys(currentObject, nextObject, keys) {
 /**
  * function that get the differences between two collections
  * @function module:Lib.getCollectionDifferences
- * @param {collectionsConfig[]} collectionsConfig arrayn with the collections config to make the compare
+ * @param {collectionsConfig} collectionsConfig object with the collections config to make the compare
  * @returns {differenceResult[]}
  */
 async function getCollectionDifferences(collectionsConfig) {
-    const currentCollection = await getCollectionDocuments(
-        collectionsConfig[0].url,
-        collectionsConfig[0].dbName,
-        collectionsConfig[0].collectionName
+    const { currentCollection, previousCollection } = collectionsConfig;
+    const currCollection = await getCollectionDocuments(
+        currentCollection.url,
+        currentCollection.dbName,
+        currentCollection.collectionName
     );
 
-    const previousCollection = await getCollectionDocuments(
-        collectionsConfig[1].url,
-        collectionsConfig[1].dbName,
-        collectionsConfig[1].collectionName
+    const prevCollection = await getCollectionDocuments(
+        previousCollection.url,
+        previousCollection.dbName,
+        previousCollection.collectionName
     );
 
     logger.info(
-        `Comparing the collection ${
-            collectionsConfig[0].collectionName
-        } on the databases [${collectionsConfig[0].dbName} | ${
-            collectionsConfig[1].dbName
-        }] with the filter [${
-            collectionsConfig[0].filterBy
-        }] and ignoring this fields [${
-            collectionsConfig[0].ignoreFields || ['_id']
+        `Comparing the collection ${chalk.yellow(
+            currentCollection.collectionName
+        )} on the databases [${chalk.yellow(
+            currentCollection.dbName
+        )}, ${chalk.yellow(
+            previousCollection.dbName
+        )}] filtering by ${chalk.yellow(
+            currentCollection.filterBy
+        )} and ignoring this fields [${
+            currentCollection.ignoreFields
+                ? chalk.yellow(currentCollection.ignoreFields)
+                : chalk.yellow('_id')
         }]`
     );
 
     let results = [];
 
-    currentCollection.documents.forEach((document) => {
-        const oldDocument = previousCollection.documents.find((d) =>
-            filterByKeys(d, document, collectionsConfig[0].filterBy)
+    currCollection.documents.forEach((document) => {
+        const oldDocument = prevCollection.documents.find((d) =>
+            filterByKeys(d, document, currentCollection.filterBy)
         );
 
         results.push(
             getDocumentsDifference(document, oldDocument, {
                 currentDbName: currentCollection.dbName,
                 previousDbName: previousCollection.dbName,
-                collectionName: collectionsConfig[0].collectionName,
-                ignoreFields: collectionsConfig[0].ignoreFields,
+                collectionName: currentCollection.collectionName,
+                ignoreFields: currentCollection.ignoreFields,
             })
         );
     });
 
-    previousCollection.documents.forEach((document) => {
-        const newDocument = currentCollection.documents.find((d) =>
-            filterByKeys(d, document, collectionsConfig[1].filterBy)
+    prevCollection.documents.forEach((document) => {
+        const newDocument = currCollection.documents.find((d) =>
+            filterByKeys(d, document, previousCollection.filterBy)
         );
 
         results.push(
             getDocumentsDifference(newDocument, document, {
                 currentDbName: currentCollection.dbName,
                 previousDbName: previousCollection.dbName,
-                collectionName: collectionsConfig[0].collectionName,
-                ignoreFields: collectionsConfig[1].ignoreFields,
+                collectionName: currentCollection.collectionName,
+                ignoreFields: previousCollection.ignoreFields,
             })
         );
     });
 
     results = results.filter((result) => result.differences !== 'no diff');
     logger.info(
-        `Comparassion in the collection ${
-            collectionsConfig[0].collectionName
-        } on the databases [${collectionsConfig[0].dbName} | ${
-            collectionsConfig[1].dbName
-        }] with the filter [${
-            collectionsConfig[0].filterBy
-        }] and ignoring this fields [${
-            collectionsConfig[0].ignoreFields || ['_id']
+        `Comparassion in the collection ${chalk.yellow(
+            currentCollection.collectionName
+        )} on the databases [${chalk.yellow(
+            currentCollection.dbName
+        )}, ${chalk.yellow(
+            previousCollection.dbName
+        )}] filtering by ${chalk.yellow(
+            currentCollection.filterBy
+        )} and ignoring this fields [${
+            currentCollection.ignoreFields
+                ? chalk.yellow(currentCollection.ignoreFields)
+                : chalk.yellow('_id')
         }] was finished`
     );
+
     return removeDuplicateResults(results);
 }
 

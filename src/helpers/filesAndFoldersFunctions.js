@@ -1,8 +1,116 @@
+const Joi = require('@hapi/joi');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 
 const logger = require('./logger');
+
+/**
+ * @typedef {object} configObject
+ * @property {String} outputFormat the format of the output
+ * @property {String} outputResultFolderPath the path of the folder where the results will be generated
+ * @property {collectionsConfig[]} collectionsConfig array with the collections options
+ */
+
+/**
+ * function that returns the object with the config from a json file
+ * @function module:Helpers.loadJsonConfig
+ * @param {String} filePath path of the file that will be loaded
+ * @returns {configObject} return the object with the config properties
+ */
+function loadJsonConfig(filePath) {
+    const fullPath = path.resolve(filePath);
+    if (checkIfFileOrFolderExists(filePath)) {
+        if (validateExtension(fullPath)) {
+            const jsonContent = fs.readFileSync(fullPath, 'utf8');
+            const config = validateJson(jsonContent);
+            return validateConfigSchema(config);
+        }
+
+        throw new Error('you must inform a json file');
+    }
+
+    throw new Error('the file informed does not exists');
+}
+
+/**
+ * function that validate the extension of the file
+ * @function module:Helpers.validateExtension
+ * @param {String} filePath the path of file
+ * @param {String[]} [fileExtension = ['.json']] an array with the file extensions accepted
+ * @returns {Boolean} boolean that indicates if the extension match with parameter
+ */
+function validateExtension(filePath, fileExtension = ['.json']) {
+    const extension = path.extname(filePath);
+    return fileExtension.includes(extension);
+}
+
+/**
+ * function that check if the content informed is a valid json
+ * @function module:Helpers.validateJson
+ * @param {String} jsonContent the string with json content
+ * @returns {object} the json parsed to javascript object
+ * @throws {Error} the content of json file is invalid
+ */
+function validateJson(jsonContent) {
+    try {
+        return JSON.parse(jsonContent);
+    } catch (error) {
+        throw new Error('the content of json file is invalid');
+    }
+}
+
+/**
+ * function that validates the schema of object
+ * @function module:Helpers.validateJsonConfigSchema
+ * @param {String} configContent object that will be validated that will be validate
+ * @returns {configObject} object with the config object if the content is valid
+ * @throws {Error} throws an error with the details of the validation error
+ */
+function validateConfigSchema(configContent) {
+    const schema = Joi.object({
+        outputFormat: Joi.string().valid('json', 'html').required(),
+        outputResultFolderPath: Joi.string().required(),
+        collectionsConfig: Joi.array()
+            .items(
+                Joi.object({
+                    currentCollection: Joi.object({
+                        url: Joi.string().required(),
+                        dbName: Joi.string().required(),
+                        collectionName: Joi.string().required(),
+                        ignoreFields: Joi.array().items(Joi.string()),
+                        filterBy: Joi.alternatives()
+                            .try(
+                                Joi.string(),
+                                Joi.array().items(Joi.string().min(2))
+                            )
+                            .required(),
+                    }),
+                    previousCollection: Joi.object({
+                        url: Joi.string().required(),
+                        dbName: Joi.string().required(),
+                        collectionName: Joi.string().required(),
+                        ignoreFields: Joi.array().items(Joi.string()),
+                        filterBy: Joi.alternatives()
+                            .try(
+                                Joi.string(),
+                                Joi.array().items(Joi.string().min(2))
+                            )
+                            .required(),
+                    }),
+                })
+            )
+            .min(1),
+    }).length(3);
+
+    const result = schema.validate(configContent);
+
+    if (result.error) {
+        throw new Error(result.error.details[0].message);
+    }
+
+    return result.value;
+}
 
 /**
  * function that check if file or folder exists
@@ -165,9 +273,11 @@ function createResultFolder(folderPath, overrideFolder = false) {
 module.exports = {
     removeFolder,
     createNewFile,
+    loadJsonConfig,
     createNewFolder,
     createResultFolder,
     createJsConfigFile,
     createJsonConfigFile,
+    validateConfigSchema,
     checkIfFileOrFolderExists,
 };

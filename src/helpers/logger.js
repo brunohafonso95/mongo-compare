@@ -9,7 +9,7 @@ const customFormat = combine(
     splat(),
     simple(),
     printf(({ message, level, timestamp: time }) => {
-        return `[${time}] [${level}] - ${message.trim()}`;
+        return `[${time}] [${level}] ${message.trim()}`;
     })
 );
 
