@@ -3,7 +3,7 @@ const chaiExclude = require('chai-exclude');
 const chalk = require('chalk');
 const { MongoClient } = require('mongodb');
 
-const { logger } = require('../helpers');
+const { logger, filesAndFolders } = require('../helpers');
 
 chai.use(chaiExclude);
 
@@ -48,6 +48,7 @@ chai.use(chaiExclude);
 /**
  * @typedef {object} differenceResult
  * @property {String} collectionName name of the collection
+ * @property {String[]} diffKeys array with the name of fields with the differences
  * @property {differenceObject} differences object with the two document's differences
  */
 
@@ -177,6 +178,23 @@ async function getCollectionDocuments(
 }
 
 /**
+ * function that get the properties that has the differences
+ * @function module:Helpers.getDifferenceDetails
+ * @param {object} currentDocument the current document that with be compared
+ * @param {object} previousDocument the previous document that with be compared
+ * @returns {String[]} array that contains tha name of properties that has the differences
+ */
+function getDifferenceDetails(currentDocument, previousDocument) {
+    const diffKeys = Object.keys(currentDocument).filter(
+        (key) =>
+            JSON.stringify(currentDocument[String(key)]) !==
+            JSON.stringify(previousDocument[String(key)])
+    );
+
+    return diffKeys;
+}
+
+/**
  * function that get the differences between two documents
  * @function module:Lib.getDocumentsDifference
  * @param {object<any>} currentDocument the actual document
@@ -199,6 +217,7 @@ function getDocumentsDifference(
             return {
                 collectionName,
                 differences: {
+                    diffKeys: [],
                     currentDocument: {
                         dbName: currentDbName,
                         result: 'not exists',
@@ -215,6 +234,7 @@ function getDocumentsDifference(
             return {
                 collectionName,
                 differences: {
+                    diffKeys: [],
                     currentDocument: {
                         dbName: currentDbName,
                         ...currentDocument,
@@ -236,6 +256,10 @@ function getDocumentsDifference(
             return {
                 collectionName,
                 differences: {
+                    diffKeys: getDifferenceDetails(
+                        error.actual,
+                        error.expected
+                    ),
                     currentDocument: {
                         dbName: currentDbName,
                         ...error.actual,
@@ -374,11 +398,36 @@ function removeDuplicateResults(results) {
     return Array.from(new Set(results.map(JSON.stringify))).map(JSON.parse);
 }
 
+async function generateMongoCompareResult(configFilePath) {
+    const config = filesAndFolders.loadJsonConfig(configFilePath);
+    let results = config.collectionsConfig.map((collectionOpts) =>
+        getCollectionDifferences(collectionOpts)
+    );
+
+    results = await Promise.all(results);
+    results = results.reduce((curr, next) => curr.concat(next));
+
+    const fileName = filesAndFolders.generateFileNameByDate(
+        config.outputResultFolderPath,
+        'results.json'
+    );
+
+    logger.info(`Genereting the results on ${chalk.yellow(fileName)}`);
+
+    filesAndFolders.createNewFile(fileName, JSON.stringify(results));
+
+    logger.info(
+        `the file [${chalk.yellow(fileName)}] was generated successfully`
+    );
+}
+
 module.exports = {
     filterByKeys,
     connectToDataBase,
+    getDifferenceDetails,
     removeDuplicateResults,
     getDocumentsDifference,
     getCollectionDocuments,
     getCollectionDifferences,
+    generateMongoCompareResult,
 };

@@ -6,6 +6,20 @@ const path = require('path');
 const logger = require('./logger');
 
 /**
+ * function that generate the file name based on actual date
+ * @function module:Helpers.generateFileNameByDate
+ * @param {String} prefix prefix that will be concatened
+ * @param {String} suffix suffix that will be concatened
+ * @returns {String} the string concatened with the prefix, suffix and date
+ */
+function generateFileNameByDate(prefix, suffix) {
+    const date = new Date();
+    return `${prefix}/${date.getDate()}-${
+        date.getMonth() + 1
+    }-${date.getFullYear()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}-${suffix}`;
+}
+
+/**
  * @typedef {object} configObject
  * @property {String} outputFormat the format of the output
  * @property {String} outputResultFolderPath the path of the folder where the results will be generated
@@ -78,7 +92,9 @@ function validateConfigSchema(configContent) {
                         url: Joi.string().required(),
                         dbName: Joi.string().required(),
                         collectionName: Joi.string().required(),
-                        ignoreFields: Joi.array().items(Joi.string()),
+                        ignoreFields: Joi.array()
+                            .items(Joi.string())
+                            .optional(),
                         filterBy: Joi.alternatives()
                             .try(
                                 Joi.string(),
@@ -90,7 +106,9 @@ function validateConfigSchema(configContent) {
                         url: Joi.string().required(),
                         dbName: Joi.string().required(),
                         collectionName: Joi.string().required(),
-                        ignoreFields: Joi.array().items(Joi.string()),
+                        ignoreFields: Joi.array()
+                            .items(Joi.string())
+                            .optional(),
                         filterBy: Joi.alternatives()
                             .try(
                                 Joi.string(),
@@ -279,5 +297,6 @@ module.exports = {
     createJsConfigFile,
     createJsonConfigFile,
     validateConfigSchema,
+    generateFileNameByDate,
     checkIfFileOrFolderExists,
 };
