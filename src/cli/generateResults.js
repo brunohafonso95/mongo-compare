@@ -1,12 +1,12 @@
-const fs = require('fs');
-const path = require('path');
+const { logger } = require('../helpers');
+const { generateMongoCompareResult } = require('../lib');
 
-module.exports = (configFilePath = 'mongo-compare-config.json') => {
+module.exports = async (configFilePath = 'mongo-compare-config.json') => {
     try {
-        const fullPath = path.resolve(configFilePath);
-        const test = fs.readFileSync(fullPath, 'utf8');
-        console.table({ test });
+        await generateMongoCompareResult(configFilePath);
     } catch (error) {
-        console.log(`error: ${error.message}`);
+        logger.error(
+            `error to generate the compare result [Error Details: ${error.message}]`
+        );
     }
 };

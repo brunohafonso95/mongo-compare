@@ -29,7 +29,7 @@ async function main() {
     if (init) {
         await generateConfigFile(yes);
     } else {
-        generateResults(config);
+        await generateResults(config);
     }
 
     return process.exit(0);

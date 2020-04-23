@@ -82,7 +82,7 @@ module.exports = async (useDefaultOptions) => {
                     !previousAnswers.generateConfigFileAgain &&
                     previousAnswers.generateConfigFileAgain !== undefined
                 ) {
-                    console.log(promptMessages.byeMessage());
+                    logger.info(promptMessages.byeMessage());
                     return process.exit(0);
                 }
 
@@ -118,7 +118,7 @@ module.exports = async (useDefaultOptions) => {
                     !previousAnswers.generateResultsFolderAgain &&
                     previousAnswers.generateResultsFolderAgain !== undefined
                 ) {
-                    console.log(promptMessages.byeMessage());
+                    logger.info(promptMessages.byeMessage());
                     return process.exit(0);
                 }
 
