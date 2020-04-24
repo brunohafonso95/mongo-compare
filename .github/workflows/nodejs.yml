@@ -1,55 +1,53 @@
 name: Node.js CI
 
 on:
-  pull_request:
-    branches: [ master ]
+    pull_request:
+        branches: [master]
 
 jobs:
-  pre-check:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    pre-check:
+        runs-on: ubuntu-latest
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-    - name: Git Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+        steps:
+            - name: Git Checkout
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
 
-    - name: Check commit messages
-      uses: wagoid/commitlint-github-action@v1
+            - name: Check commit messages
+              uses: wagoid/commitlint-github-action@v1
 
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Git Checkout
-      uses: actions/checkout@v2
+        steps:
+            - name: Git Checkout
+              uses: actions/checkout@v2
 
-    - name: Install Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
+            - name: Install Node.js 12.x
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
 
-    - uses: actions/cache@v1
-      with:
-        path: ~/.cache/yarn
-        key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.cache/yarn
+                  key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+                  restore-keys: |
+                      ${{ runner.os }}-yarn-
 
-    - name: Install dependencies
-      run: yarn
+            - name: Install dependencies
+              run: yarn
 
-    - name: Run linting
-      run: yarn lint
+            - name: Run linting
+              run: yarn lint
 
-    - name: Run Automated test
-      run: yarn test
+            - name: Run Automated test
+              run: yarn test
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
-
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v1
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
